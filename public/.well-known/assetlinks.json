@@ -1,0 +1,5 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target" : { "namespace": "android_app", "package_name": "games.geoguess.demo.twa",
+                   "sha256_cert_fingerprints": ["7B:8E:6A:B8:DB:38:33:10:9E:B3:B4:A1:BF:D3:11:30:B4:32:D0:B0:34:7F:EF:B3:E1:24:35:CF:44:99:10:45"] }
+    }]
