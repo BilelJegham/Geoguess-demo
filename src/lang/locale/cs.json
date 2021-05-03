@@ -1,6 +1,6 @@
 {
     "Home": {
-        "record": "Rekord",
+        "placeVisited": "0 place visited | 1 place visited | {count} places visited",
         "historyBtn": "HISTORIE",
         "about": "O HŘE",
         "searchBar": {
@@ -22,7 +22,9 @@
         },
         "limitation": "OMEZENÍ",
         "limitationDescription": "Tato hra má nastavená omezení počtu her za den, abych snížil náklady na provoz. Pokud se mapa nenačítá, nebo se načte v režimu negativu (špatné barvy), znamená to, že dnešení limit her byl již naplněn. Limit se resetuje o půlnoci amerického času (Pacific Time - tj. v 8 hodin ráno našeho zimního času, popř. 9 hodin ráno našeho letního času). Za tuto nepříjemnost se omlouvám. Hra je poskytována open source, takže je možné hostovat vlastní kopii a hrát bez jakýchkoliv denních omezení.",
-        "play": "Hrát"
+        "play": "Hrát",
+        "streamerModeActivate": "Streamer mode activate",
+        "streamerModeDetails": "URLs and room names are hidden"
     },
     "StreetView": {
         "nearby": {
@@ -33,8 +35,8 @@
         "redirectToHomePage": "Přesměruji na úvodní stránku...",
         "exitGame": "Byl jsi přinucen ukončit hru (jeden z hráčů pravděpodovně odešel). Za 5 sekund přesměruji na úvodní stranu...",
         "waitForOtherPlayersToFinish": "Počkej prosím, až ostatní hráči dokončí hru...",
-        "confirmExit": "Are you sure to leave the current game? This will abort the game!",
-        "countdownAlert": "Countdown started : {count} second remaining | Countdown started : {count} seconds remaining"
+        "confirmExit": "Opravdu chceš opustit aktuální hru? Ukončíš tím hru pro všechny hráče!",
+        "countdownAlert": "Odpočítávání začalo: zbývá {count} sekund | Odpočítávání začalo: zbývá {count} sekund"
     },
     "Maps": {
         "makeGuess": "HÁDEJ POLOHU",
@@ -73,7 +75,7 @@
         "edit": "Upravit Mapu",
         "fileLabel": "Zvol GeoJSON soubor",
         "OK": "OK",
-        "download": "Download GeoJSON"
+        "download": "Stáhni GeoJSON"
     },
     "History": {
         "title": "Historie",
@@ -84,23 +86,27 @@
         "points": "Skóre",
         "rank": "Umístění",
         "search": "Vyhledávání",
-        "exportGeoSave": "Export GeoSave",
-        "importGeoSave": "Import GeoSave",
-        "exportCSV": "Export CSV"
+        "exportGeoSave": "Exportuj GeoSave",
+        "importGeoSave": "Importuj GeoSave",
+        "exportCSV": "Exportuj CSV",
+        "total": "Total"
     },
     "DialogRoom": {
         "singlePlayer": "Jeden hráč",
         "withFriends": "Více hráčů",
         "invalidRoomName": "Nevhodné jméno. Zkus se prosím pojmenovat jinak.",
         "inProgress": "První hráč právě nastavuje hru. Vydrž prosím a za chvíli to zkus znovu.",
-        "roomIsFull": "Tato místnost je již plná. Zkus to prosím znovu později."
+        "roomIsFull": "Tato místnost je již plná. Zkus to prosím znovu později.",
+        "alreadyStarted": "This room has aldready started.  Please try another."
     },
     "CardRoomName": {
-        "title": "Type a room name to create a new room or join a existing room"
+        "title": "Napiš název herní mistnosti, aby jsi ji vytvořil nebo se do ní připojil"
     },
     "CardRoomPlayerName": {
-        "title": "Jak se chceš jmenovat?",
-        "anonymousPlayerName": "Anonym 🕵"
+        "title": "Room:",
+        "input": "Type a player name.",
+        "anonymousPlayerName": "Anonym 🕵",
+        "players": "1 player | {count} players"
     },
     "CardRoomSize": {
         "title": "Zvol počet hráčů."
@@ -112,11 +118,18 @@
     "CardRoomSettings": {
         "title": "Nastavení hry",
         "modeLabel": "Zvol herní režim",
+        "includePhotopheres": "Zahrnout fotosféry",
         "timeAttackLabel": "TimeAttack",
-        "timeattackInfos": "In TimeAttack mode, only the player who guesses the country first gets the point. Be quick and win!",
-        "allowMove": "Allow Move",
-        "allowZoom": "Allow Zoom",
-        "allowPan": "Allow Pan"
+        "timeattackInfos": "V režimu TimeAttack dostane bod pouze první hráč, který správně uhádne zemi. Buď nejrychlejší a vyhraj!",
+        "allowMove": "Povolit Pohyb",
+        "allowZoom": "Povolit Zoom (přiblížení)",
+        "allowPan": "Povolit Otáčení",
+        "countDownLabel": "CountDown (seconds)",
+        "scoreModeLabel": "Score formula",
+        "scoreModes": {
+            "normal": "normal",
+            "time": "time"
+        }
     },
     "CardRoomDifficulty": {
         "title": "Zvol obtížnost hry (ovlivňuje bodování).",
@@ -147,5 +160,7 @@
         "message": "Pokud chcete přispět k projektu a zlepšit jej, Vaše pomoc je velmi vítána: Překlad 🔠, Mapy 🌍, Kód 💻, Nápady 💡, Beta testy 👀.",
         "btn": "Přidej se k nám"
     },
-    "OK": "OK"
+    "OK": "OK",
+    "yes": "Ano",
+    "no": "Ne"
 }

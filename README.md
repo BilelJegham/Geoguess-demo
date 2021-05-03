@@ -4,10 +4,11 @@
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/GeoGuess/GeoGuess)](https://github.com/GeoGuess/Geoguess/releases) 
 [![GitHub](https://img.shields.io/github/license/BilelJegham/Geoguess-2)](https://github.com/GeoGuess/Geoguess/blob/master/LICENSE) 
 [![Discord](https://img.shields.io/discord/758443244387303435?color=7289DA&label=discord&logo=discord&logoColor=FFFFFF)](https://discord.gg/9GXm6RT)<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg)](#-contribution)
+[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg)](#-contribution)
 <!-- ALL-CONTRIBUTORS-BADGE:END --> 
 
 ![CI](https://github.com/GeoGuess/Geoguess/workflows/CI/badge.svg)
+[![DeepScan grade](https://deepscan.io/api/teams/6533/projects/15869/branches/324468/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=6533&pid=15869&bid=324468)
 [![codecov](https://codecov.io/gh/GeoGuess/Geoguess/branch/master/graph/badge.svg?token=J94E3GE4SL)](https://codecov.io/gh/GeoGuess/Geoguess)
 [![Crowdin](https://badges.crowdin.net/geoguess/localized.svg)](https://translate.geoguess.games/project/geoguess)
 
@@ -69,6 +70,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="http://viniciusdof.com"><img src="https://avatars.githubusercontent.com/u/6577961?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Vinicius Dell Osbel de Freitas</b></sub></a><br /><a href="#translation-viniciusdof" title="Translation">🌍</a> <a href="https://github.com/GeoGuess/Geoguess/commits?author=viniciusdof" title="Code">💻</a></td>
     <td align="center"><a href="http://wlanowski.de"><img src="https://avatars.githubusercontent.com/u/25705332?v=4?s=100" width="100px;" alt=""/><br /><sub><b>John Nitzsche</b></sub></a><br /><a href="#translation-wlanowski" title="Translation">🌍</a> <a href="#financial-wlanowski" title="Financial">💵</a></td>
     <td align="center"><a href="http://technicproblem.github.io"><img src="https://avatars.githubusercontent.com/u/38329398?v=4?s=100" width="100px;" alt=""/><br /><sub><b>TechnicProblem</b></sub></a><br /><a href="#translation-TechnicProblem" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/maksovnik"><img src="https://avatars.githubusercontent.com/u/60991351?v=4?s=100" width="100px;" alt=""/><br /><sub><b>maksovnik</b></sub></a><br /><a href="https://github.com/GeoGuess/Geoguess/commits?author=maksovnik" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Stimmenhotel"><img src="https://avatars.githubusercontent.com/u/15821524?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Stimmenhotel</b></sub></a><br /><a href="#translation-Stimmenhotel" title="Translation">🌍</a></td>
   </tr>
 </table>
 

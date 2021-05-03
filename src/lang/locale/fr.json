@@ -1,6 +1,6 @@
 {
     "Home": {
-        "record": "Record",
+        "placeVisited": "0 lieu visité | 1 lieu visité | {count} lieux visités",
         "historyBtn": "Historique",
         "about": "A PROPOS",
         "searchBar": {
@@ -22,7 +22,9 @@
         },
         "limitation": "LIMITATION",
         "limitationDescription": "Actuellement, j'ai fixé un quota par jour afin que le coût du jeu ne soit pas élevé.            Si la carte ne se charge pas, cela signifie que le quota a été dépassé.            Il est réinitialisé à minuit (heure du pacifique). Désolé pour le dérangement.             Le jeu est open source, ainsi il vous est possible de créer votre propre jeu pour y jouer sans limite.",
-        "play": "Jouer"
+        "play": "Jouer",
+        "streamerModeActivate": "Mode Streamer activé",
+        "streamerModeDetails": "Les URLs et les noms des salles sont masqués"
     },
     "StreetView": {
         "nearby": {
@@ -34,7 +36,7 @@
         "exitGame": "Vous êtes forcé de quitter le jeu. Redirection vers la page d'accueil dans 5 secondes...",
         "waitForOtherPlayersToFinish": "En attente des autres joueurs pour finir la partie...",
         "confirmExit": "Êtes-vous sûr de vouloir quitter la partie en cours ? Cela annulera la partie !",
-        "countdownAlert": "Countdown started : {count} second remaining | Countdown started : {count} seconds remaining"
+        "countdownAlert": "Compte à rebours lancé : {count} seconde restante | Compte à rebours lancé : {count} secondes restantes"
     },
     "Maps": {
         "makeGuess": "FAIRE UN CHOIX",
@@ -86,21 +88,25 @@
         "search": "Rechercher",
         "exportGeoSave": "Exporter en GeoSave",
         "importGeoSave": "Import un GeoSave",
-        "exportCSV": "Export CSV"
+        "exportCSV": "Export CSV",
+        "total": "Total"
     },
     "DialogRoom": {
         "singlePlayer": "Un joueur",
         "withFriends": "Avec des amis",
         "invalidRoomName": "Nom invalide. Veuillez en choisir un autre.",
         "inProgress": "Le premier joueur est en train de créer la salle. Veuillez patienter puis recommencer.",
-        "roomIsFull": "La salle est déjà pleine. Essayez une autre."
+        "roomIsFull": "La salle est déjà pleine. Essayez une autre.",
+        "alreadyStarted": "La partie a déjà commencé. Essayer une autre."
     },
     "CardRoomName": {
         "title": "Saisir le nom de la salle pour la créer, ou la rejoindre si elle existe"
     },
     "CardRoomPlayerName": {
-        "title": "Saisir votre pseudo.",
-        "anonymousPlayerName": "Anonyme 🕵"
+        "title": "Salle:",
+        "input": "Saisir votre pseudo.",
+        "anonymousPlayerName": "Anonyme 🕵",
+        "players": "1 joueur | {count} joueurs"
     },
     "CardRoomSize": {
         "title": "Saisir la taille de la salle."
@@ -112,11 +118,18 @@
     "CardRoomSettings": {
         "title": "Paramètre de la partie",
         "modeLabel": "Choisissez le mode de jeu",
+        "includePhotopheres": "Inclure les Photosphères",
         "timeAttackLabel": "TimeAttack",
         "timeattackInfos": "Dans le mode TimeAttack, seulement le premier joueur qui devine le pays récupère le point. Sois rapide et gagne!",
         "allowMove": "Autoriser les déplacements",
         "allowZoom": "Autoriser le zoom",
-        "allowPan": "Autoriser les rotations"
+        "allowPan": "Autoriser les rotations",
+        "countDownLabel": "Compte à rebours (secondes)",
+        "scoreModeLabel": "Formule de calcul du score",
+        "scoreModes": {
+            "normal": "normal",
+            "time": "temps"
+        }
     },
     "CardRoomDifficulty": {
         "title": "Saisir la difficulté.",
@@ -147,5 +160,7 @@
         "message": "Tu souhaites contribuer au projet et le rendre meilleur, ton aide est la bienvenue :  Traduction 🔠, Créateur de carte 🌍, Code 💻, Idée 💡, Beta test 👀.",
         "btn": "Rejoins-nous"
     },
-    "OK": "OK"
+    "OK": "OK",
+    "yes": "oui",
+    "no": "non"
 }

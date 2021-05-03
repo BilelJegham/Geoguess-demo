@@ -1,6 +1,6 @@
 {
     "Home": {
-        "record": "ベストスコア",
+        "placeVisited": "0 place visited | 1 place visited | {count} places visited",
         "historyBtn": "歴史",
         "about": "このサイトについて",
         "searchBar": {
@@ -22,7 +22,9 @@
         },
         "limitation": "制限",
         "limitationDescription": "地図とストリートビューを表示させるのにお金がかかるため制限をかけています。        1日の制限を超えると地図が正しくロードされなくなります。         制限は太平洋標準時での深夜にリセットされます。        このサイトはオープンソースなので制限なく遊びたい方は自分でゲームをセットアップすることもできます。",
-        "play": "プレイ"
+        "play": "プレイ",
+        "streamerModeActivate": "Streamer mode activate",
+        "streamerModeDetails": "URLs and room names are hidden"
     },
     "StreetView": {
         "nearby": {
@@ -86,21 +88,25 @@
         "search": "Search",
         "exportGeoSave": "Export GeoSave",
         "importGeoSave": "Import GeoSave",
-        "exportCSV": "Export CSV"
+        "exportCSV": "Export CSV",
+        "total": "Total"
     },
     "DialogRoom": {
         "singlePlayer": "一人で遊ぶ",
         "withFriends": "友達と遊ぶ",
         "invalidRoomName": "無効な名前です。別の名前を入力して下さい。",
         "inProgress": "最初のプレーヤーが部屋を作っています。再度試して下さい。",
-        "roomIsFull": "この部屋は既に満員です。"
+        "roomIsFull": "この部屋は既に満員です。",
+        "alreadyStarted": "This room has aldready started.  Please try another."
     },
     "CardRoomName": {
         "title": "Type a room name to create a new room or join a existing room"
     },
     "CardRoomPlayerName": {
-        "title": "プレーヤーの名前を入力して下さい。",
-        "anonymousPlayerName": "Anonymous 🕵"
+        "title": "Room:",
+        "input": "Type a player name.",
+        "anonymousPlayerName": "Anonymous 🕵",
+        "players": "1 player | {count} players"
     },
     "CardRoomSize": {
         "title": "部屋の人数を選択して下さい。"
@@ -112,11 +118,18 @@
     "CardRoomSettings": {
         "title": "Game Settings",
         "modeLabel": "Select game mode",
+        "includePhotopheres": "Include Photospheres",
         "timeAttackLabel": "TimeAttack",
         "timeattackInfos": "In TimeAttack mode, only the player who guesses the country first gets the point. Be quick and win!",
         "allowMove": "Allow Move",
         "allowZoom": "Allow Zoom",
-        "allowPan": "Allow Pan"
+        "allowPan": "Allow Pan",
+        "countDownLabel": "CountDown (seconds)",
+        "scoreModeLabel": "Score formula",
+        "scoreModes": {
+            "normal": "normal",
+            "time": "time"
+        }
     },
     "CardRoomDifficulty": {
         "title": "Set a difficulty level.",
@@ -147,5 +160,7 @@
         "message": "If you want to contribute to a project and make it better, your help is very welcome :  Translation 🔠, Mapper 🌍, Code 💻, Idea 💡, Beta test 👀.",
         "btn": "Join Us"
     },
-    "OK": "OK"
+    "OK": "OK",
+    "yes": "yes",
+    "no": "no"
 }

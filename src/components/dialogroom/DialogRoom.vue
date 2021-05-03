@@ -1,8 +1,8 @@
 <template>
     <v-dialog
+        v-model="dialogRoom"
         persistent
         :fullscreen="$viewport.width < 450"
-        v-model="dialogRoom"
         max-width="800"
     >
         <template v-slot:activator="{ on }">
@@ -22,14 +22,18 @@
         </template>
         <component
             :is="currentComponent"
-            :singlePlayer="singlePlayer"
-            :errorMessage="errorMessage"
-            :placeGeoJson="placeGeoJson"
-            :loadingGeoJson="loadingGeoJson"
-            :currentComponent="currentComponent"
+            :single-player="singlePlayer"
+            :error-message="errorMessage"
+            :place-geo-json="placeGeoJson"
+            :loading-geo-json="loadingGeoJson"
+            :current-component="currentComponent"
+            :room="room"
+            :room-name="roomName"
+            :first-player="firstPlayer"
             @searchRoom="searchRoom"
             @setPlayerName="setPlayerName"
             @setSettings="setSettings"
+            @start="startGame"
             @cancel="cancel"
         />
     </v-dialog>
@@ -48,6 +52,11 @@ import { GAME_MODE } from '../../constants';
 import { getMaxDistanceBbox } from '../../utils';
 
 export default {
+    components: {
+        roomName: CardRoomName,
+        settings: CardRoomSettings,
+        playerName: CardRoomPlayerName,
+    },
     props: {
         geoJson: {
             default: null,
@@ -64,12 +73,12 @@ export default {
     },
     data() {
         return {
-            roomSize: 2,
             placeGeoJson: null,
             dialogRoom: false,
             errorMessage: '',
             room: null,
             roomName: '',
+            name: null,
             currentComponent: this.singlePlayer ? 'settings' : 'roomName',
             timeLimitation: null,
             difficulty: null,
@@ -82,6 +91,8 @@ export default {
             moveControl: true,
             panControl: true,
             countdown: 0,
+            scoreMode: null,
+            allPanorama: false,
         };
     },
     computed: {
@@ -125,11 +136,6 @@ export default {
                 this.dialogRoom = true;
             });
         }
-    },
-    components: {
-        roomName: CardRoomName,
-        settings: CardRoomSettings,
-        playerName: CardRoomPlayerName,
     },
     methods: {
         ...mapActions(['resetSinglePlayer', 'resetMultiPlayer']),
@@ -180,17 +186,25 @@ export default {
                 this.roomName = roomName;
 
                 this.room.once('value', (snapshot) => {
-                    var numberOfPlayers = snapshot
+                    if (snapshot.child('started').val()) {
+                        this.errorMessage = this.$t(
+                            'DialogRoom.alreadyStarted'
+                        );
+                        return;
+                    }
+                    const numberOfPlayers = snapshot
                         .child('playerName')
                         .numChildren();
                     this.playerNumber = numberOfPlayers + 1;
 
-                    if (numberOfPlayers == 0) {
+                    if (numberOfPlayers === 0) {
                         // Put the tentative player's name into the room node
                         // So that other player can't enter as the first player while the player decide the name and room size
                         this.room.child('playerName').update(
                             {
-                                player1: 'player1',
+                                player1: this.$t(
+                                    'CardRoomPlayerName.anonymousPlayerName'
+                                ),
                             },
                             (error) => {
                                 if (!error) {
@@ -205,25 +219,20 @@ export default {
                                 }
                             }
                         );
-                    } else if (
-                        !snapshot.hasChild('size') ||
-                        !snapshot.hasChild('streetView')
-                    ) {
-                        // Prevent other players from getting into the room earlier than the first player
-                        this.errorMessage = this.$t('DialogRoom.inProgress');
-                    } else if (
-                        numberOfPlayers >= snapshot.child('size').val()
-                    ) {
-                        this.errorMessage = this.$t('DialogRoom.roomIsFull');
                     } else {
                         // Put other player's tentative name
                         this.room
                             .child('playerName/player' + this.playerNumber)
-                            .set('player' + this.playerNumber, (error) => {
-                                if (!error) {
-                                    this.currentComponent = 'playerName';
+                            .set(
+                                this.$t(
+                                    'CardRoomPlayerName.anonymousPlayerName'
+                                ) + this.playerNumber,
+                                (error) => {
+                                    if (!error) {
+                                        this.currentComponent = 'playerName';
+                                    }
                                 }
-                            });
+                            );
                     }
                     if (after) {
                         after();
@@ -232,27 +241,30 @@ export default {
             }
         },
         setSettings(
+            allPanorama,
             timeLimitation,
             mode,
-            roomSize,
             timeAttack,
             zoomControl,
             moveControl,
             panControl,
-            countdown
+            countdown,
+            scoreMode
         ) {
+            this.allPanorama = allPanorama;
             this.timeLimitation = timeLimitation;
-            this.roomSize = roomSize;
             this.mode = mode;
             this.timeAttack = timeAttack;
             this.zoomControl = zoomControl;
             this.moveControl = moveControl;
             this.panControl = panControl;
             this.countdown = countdown;
+            this.scoreMode = scoreMode;
             if (this.singlePlayer) {
                 this.$router.push({
                     name: 'street-view',
                     params: {
+                        allPanorama: this.allPanorama,
                         time: this.timeLimitation,
                         difficulty: this.difficulty,
                         placeGeoJson: this.placeGeoJson,
@@ -261,21 +273,23 @@ export default {
                         zoomControl,
                         moveControl,
                         panControl,
+                        scoreMode,
                     },
                 });
             } else {
                 this.room.update(
                     {
+                        allPanorama: this.allPanorama,
                         timeLimitation: this.timeLimitation,
                         difficulty: this.difficulty,
                         bbox: this.bboxObj,
                         mode,
-                        size: this.roomSize,
                         timeAttack,
                         zoomControl,
                         moveControl,
                         panControl,
                         countdown,
+                        scoreMode,
                     },
                     (error) => {
                         if (!error) {
@@ -301,64 +315,55 @@ export default {
             if (playerName === '') {
                 playerName = this.$t('CardRoomPlayerName.anonymousPlayerName');
             }
+            this.name = playerName;
             this.room
                 .child('playerName/player' + this.playerNumber)
-                .set(playerName, (error) => {
-                    if (!error) {
-                        let gameParams = {};
-                        if (this.firstPlayer) {
-                            gameParams = {
-                                difficulty: this.difficulty,
-                                bboxObj: this.bboxObj,
-                                modeSelected: this.mode,
-                                timeAttackSelected: this.timeAttack,
-                                zoomControl: this.zoomControl,
-                                moveControl: this.moveControl,
-                                panControl: this.panControl,
-                                countdown: this.countdown,
-                            };
-                            this.startGameMultiplayer(playerName, gameParams);
-                        } else {
-                            this.room.once('value', (snapshot) => {
-                                gameParams = {
-                                    difficulty: snapshot
-                                        .child('difficulty')
-                                        .val(),
-                                    bboxObj: snapshot.child('bbox').val(),
-                                    modeSelected: snapshot.child('mode').val(),
-                                    timeAttackSelected: snapshot
-                                        .child('timeAttack')
-                                        .val(),
-                                    zoomControl: snapshot
-                                        .child('zoomControl')
-                                        .val(),
-                                    moveControl: snapshot
-                                        .child('moveControl')
-                                        .val(),
-                                    panControl: snapshot
-                                        .child('panControl')
-                                        .val(),
-                                    countdown: snapshot
-                                        .child('countdown')
-                                        .val(),
-                                };
-                                this.startGameMultiplayer(
-                                    playerName,
-                                    gameParams
-                                );
-                            });
-                        }
-                    }
-                });
+                .set(playerName);
         },
-        startGameMultiplayer(playerName, gameParams) {
+        startGame() {
+            let gameParams = {};
+            if (this.firstPlayer) {
+                gameParams = {
+                    difficulty: this.difficulty,
+                    bboxObj: this.bboxObj,
+                    modeSelected: this.mode,
+                    timeAttackSelected: this.timeAttack,
+                    zoomControl: this.zoomControl,
+                    moveControl: this.moveControl,
+                    panControl: this.panControl,
+                    countdown: this.countdown,
+                    allPanorama: this.allPanorama,
+                    scoreMode: this.scoreMode,
+                };
+                // Set flag started
+                this.room.child('started').set(true);
+                this.startGameMultiplayer(gameParams);
+            } else {
+                this.room.once('value', (snapshot) => {
+                    gameParams = {
+                        difficulty: snapshot.child('difficulty').val(),
+                        bboxObj: snapshot.child('bbox').val(),
+                        modeSelected: snapshot.child('mode').val(),
+                        timeAttackSelected: snapshot.child('timeAttack').val(),
+                        zoomControl: snapshot.child('zoomControl').val(),
+                        moveControl: snapshot.child('moveControl').val(),
+                        panControl: snapshot.child('panControl').val(),
+                        countdown: snapshot.child('countdown').val(),
+                        allPanorama: snapshot.child('allPanorama').val(),
+                        scoreMode: snapshot.child('scoreMode').val(),
+                    };
+                    this.startGameMultiplayer(gameParams);
+                });
+            }
+        },
+        startGameMultiplayer(gameParams) {
             // Start the game
             this.$router.push({
                 name: 'with-friends',
                 params: {
                     ...gameParams,
                     roomName: this.roomName,
-                    playerName,
+                    playerName: this.name,
                     playerNumber: this.playerNumber,
                     placeGeoJson: this.placeGeoJson,
                     multiplayer: true,

@@ -7,19 +7,19 @@
             <v-card>
                 <v-card-text>
                     <center>
-                        <v-icon x-large> mdi-clipboard-check</v-icon>
+                        <v-icon x-large> mdi-clipboard-check </v-icon>
                         <p>{{ $t('urlCopied') }}</p>
-                        <v-text-field v-model="url" readonly></v-text-field>
+                        <v-text-field v-model="url" readonly />
                     </center>
                 </v-card-text>
                 <v-card-actions>
-                    <v-spacer></v-spacer>
+                    <v-spacer />
 
                     <v-btn
-                        @click="dialog = false"
                         dark
                         depressed
                         color="#43B581"
+                        @click="dialog = false"
                     >
                         {{ $t('OK') }}
                     </v-btn>
@@ -35,7 +35,7 @@
                             accept="application/json"
                             prepend-icon="mdi-download-outline"
                             @change="importSave"
-                        ></v-file-input>
+                        />
                     </div>
                 </template>
                 <span>{{ $t('History.importGeoSave') }}</span>
@@ -56,11 +56,11 @@
             append-icon="mdi-magnify"
             single-line
             hide-details
-        ></v-text-field>
+        />
         <v-data-table
+            id="history-table"
             calculate-widths
             :search="search"
-            id="history-table"
             :headers="headers.filter((h) => !h.hide)"
             :items="items"
             show-expand
@@ -68,7 +68,7 @@
             :sort-by="['dateString']"
             :sort-desc="[true]"
             item-key="id"
-            :customSort="customSort"
+            :custom-sort="customSort"
             :expanded="items.length > 0 ? [items[items.length - 1]] : []"
         >
             <template v-slot:[`item.actions`]="{ item }">
@@ -78,35 +78,53 @@
             </template>
             <template v-slot:expanded-item="{ headers, item }">
                 <td :colspan="headers.length" class="item">
+                    <div v-if="item.multiplayer" class="item_time_multi">
+                        <HistoryTimeDetail
+                            class="item__times"
+                            v-for="(playerName, index) in playersNames(
+                                item.rounds
+                            )"
+                            :rounds="roundsPlayer(item.rounds, playerName)"
+                            :playerName="playerName"
+                            :key="`HistoryTimeDetail` + playerName"
+                            :index="index"
+                        />
+                    </div>
+                    <div v-else>
+                        <HistoryTimeDetail
+                            class="item__times"
+                            :rounds="item.rounds"
+                        />
+                    </div>
                     <HistoryMapCountry
-                        :item="item"
                         v-if="item.gameMode === $t('modes.country')"
+                        :item="item"
                     />
-                    <HistoryMapClassic :item="item" v-else />
+                    <HistoryMapClassic v-else :item="item" />
                 </td>
             </template>
         </v-data-table>
-        <v-btn @click="exportCsv" color="primary" class="btn-export">{{
-            $t('History.exportCSV')
-        }}</v-btn>
+        <v-btn color="primary" class="btn-export" @click="exportCsv">
+            {{ $t('History.exportCSV') }}
+        </v-btn>
     </div>
 </template>
 <script>
+import { mapActions, mapState } from 'vuex';
 import { GAME_MODE } from '../../constants';
 import { download } from '../../utils';
 import HistoryMapClassic from './gameResult/HistoryMapClassic';
 import HistoryMapCountry from './gameResult/HistoryMapCountry';
+import HistoryTimeDetail from './gameResult/HistoryTimeDetail';
 export default {
     name: 'HistoryTable',
     components: {
         HistoryMapClassic,
         HistoryMapCountry,
+        HistoryTimeDetail,
     },
     data() {
         return {
-            history: localStorage.getItem('history')
-                ? JSON.parse(localStorage.getItem('history'))
-                : [],
             expanded: [history[history.length - 1]],
             dialog: false,
             url: '',
@@ -175,22 +193,10 @@ export default {
             ],
         };
     },
-    mounted() {
-        if ('launchQueue' in window) {
-            launchQueue.setConsumer((launchParams) => {
-                if (
-                    !Array.isArray(launchParams.files) ||
-                    launchParams.files.length !== 1
-                ) {
-                    return;
-                }
-                launchParams.files[0].getFile().then((f) => {
-                    this.importSave(f);
-                });
-            });
-        }
-    },
     computed: {
+        ...mapState({
+            history: (state) => state.homeStore.history,
+        }),
         items() {
             return this.history.map((g, index) => ({
                 ...g,
@@ -212,7 +218,30 @@ export default {
             }));
         },
     },
+    mounted() {
+        this.loadHistory();
+        if ('launchQueue' in window) {
+            launchQueue.setConsumer((launchParams) => {
+                if (
+                    !Array.isArray(launchParams.files) ||
+                    launchParams.files.length !== 1
+                ) {
+                    return;
+                }
+                launchParams.files[0].getFile().then((f) => {
+                    this.importSave(f);
+                });
+            });
+        }
+    },
     methods: {
+        ...mapActions(['loadHistory']),
+        roundsPlayer(rounds, name) {
+            return rounds.map((r) => r.players[name]);
+        },
+        playersNames(rounds) {
+            return Object.keys(rounds[0].players);
+        },
         customSort(items, index, isDesc) {
             if (index.length === 0) {
                 return items;
@@ -318,30 +347,34 @@ export default {
     h2 {
         font-weight: 500;
     }
-    padding: 10px;
+    padding: 0.625rem;
     .item {
         padding: 0;
-        width: 90%;
+        width: 100%;
+        .item_time_multi {
+            max-height: 10.5rem;
+            overflow-x: auto;
+        }
     }
 
     position: relative;
     .history-table__btns {
         position: absolute;
-        top: 10px;
-        right: 10px;
+        top: 0.625rem;
+        right: 0.625rem;
         display: inline-flex;
         .v-input {
-            margin-top: 2px;
+            margin-top: 0.125rem;
             padding-top: 0;
         }
         .v-btn {
-            margin-right: 5px;
+            margin-right: 0.3125rem;
         }
     }
     .btn-export {
         position: absolute;
-        bottom: 20px;
-        left: 10px;
+        bottom: 1.25rem;
+        left: 0.625rem;
     }
 }
 </style>

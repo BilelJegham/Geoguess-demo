@@ -21,11 +21,7 @@
             </v-btn>
         </section>
         <section id="maps">
-            <MapCard
-                :map="map"
-                v-for="(map, index) in maps"
-                v-bind:key="index"
-            />
+            <MapCard v-for="(map, index) in maps" :key="index" :map="map" />
         </section>
     </ContentPage>
 </template>

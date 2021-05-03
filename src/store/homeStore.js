@@ -9,6 +9,8 @@ export default {
         listMaps: [],
         openDialogSinglePlayer: false,
         openDialogMultiPlayer: false,
+        history: [],
+        streamerMode: false,
     }),
     mutations: {
         [MutationTypes.HOME_SET_GEOJSON](state, geojson) {
@@ -22,6 +24,12 @@ export default {
         },
         [MutationTypes.HOME_SET_MULTIPLAYER](state, status) {
             state.openDialogMultiPlayer = status;
+        },
+        [MutationTypes.HOME_SET_HISTORY](state, history) {
+            state.history = history;
+        },
+        [MutationTypes.HOME_SET_STREAMER_MODE](state, streamerMode) {
+            state.streamerMode = streamerMode;
         },
     },
 
@@ -43,6 +51,12 @@ export default {
         },
         maps(state) {
             return state.listMaps;
+        },
+        nbPlaceVisits(state) {
+            return state.history.reduce(
+                (a, { rounds }) => a + rounds.length,
+                0
+            );
         },
     },
 
@@ -117,6 +131,12 @@ export default {
         },
         resetMultiPlayer({ commit }) {
             commit(MutationTypes.HOME_SET_MULTIPLAYER, false);
+        },
+        loadHistory({ commit }) {
+            const history = localStorage.getItem('history')
+                ? JSON.parse(localStorage.getItem('history'))
+                : [];
+            commit(MutationTypes.HOME_SET_HISTORY, history);
         },
     },
 };

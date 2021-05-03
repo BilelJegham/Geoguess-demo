@@ -41,6 +41,7 @@ Object {
   "geojson": Object {
     "type": "Point",
   },
+  "history": Array [],
   "listMaps": Array [
     Object {
       "name": "Hello",
@@ -48,5 +49,6 @@ Object {
   ],
   "openDialogMultiPlayer": true,
   "openDialogSinglePlayer": true,
+  "streamerMode": false,
 }
 `;
