@@ -21,8 +21,14 @@
             </v-btn>
         </section>
         <section id="maps">
-            <MapCard v-for="(map, index) in maps" :key="index" :map="map" />
+            <MapCard v-for="(map, index) in maps" :key="index" :map="map" />    
         </section>
+        <Adsense
+            style="background: darkgreen"
+            ins-style="width: 100%; display: block;"
+            data-ad-client="ca-pub-3283982605864712"
+            data-ad-slot="6906781670">
+        </Adsense>
     </ContentPage>
 </template>
 
@@ -95,7 +101,7 @@ export default {
                 flex-wrap: nowrap;
                 justify-items: end;
                 .box {
-                    margin: 28vh auto;
+                    margin: 18vh auto;
                     width: 35vw;
                     max-width: 100%;
                 }
