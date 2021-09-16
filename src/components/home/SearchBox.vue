@@ -46,7 +46,7 @@
         </div>
         <Adsense
             ins-style="margin-top: 5%;display: block;height: 150px; width: 100% "
-            style="height: 150px;background: darkgreen"
+            style="height: 150px;"
             data-ad-client="ca-pub-3283982605864712"
             data-ad-format="horizontal"
             data-ad-slot="6568419063">

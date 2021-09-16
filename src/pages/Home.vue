@@ -24,8 +24,7 @@
             <MapCard v-for="(map, index) in maps" :key="index" :map="map" />    
         </section>
         <Adsense
-            style="background: darkgreen"
-            ins-style="width: 100%; display: block;"
+            ins-style="width: 100%; display: block; "
             data-ad-client="ca-pub-3283982605864712"
             data-ad-slot="6906781670">
         </Adsense>
