@@ -1,7 +1,9 @@
-import MapCountries from '@/components/map/MapCountries';
+import MapAreas from '@/components/map/MapAreas';
 import { createLocalVue, mount } from '@vue/test-utils';
-import appInit from '../../utils/appInit';
+import appInit from '../../testutils/appInit';
+import Vuex from 'vuex';
 import createGoogleMapsMock from 'jest-google-maps-mock';
+import areaStore from '../../../../src/store/areaStore';
 
 const args = appInit(createLocalVue());
 global.google = {
@@ -19,23 +21,37 @@ global.google = {
         }),
     },
 };
-describe('MapCountries.vue', () => {
-    it('test methods', () => {
-        const wrapper = mount(MapCountries, {
-            ...args,
-            propsData: {
-                bbox: [0, 10, 20, 30],
-                country: 'FR',
+describe('MapAreas.vue', () => {
+    let store;
+    beforeEach(() => {
+        store = new Vuex.Store({
+            modules: {
+                areaStore: {
+                    getters: areaStore.getters,
+                    actions: {
+                        loadAreas: jest.fn(),
+                    },
+                },
             },
         });
-        wrapper.vm.countries.CA = new google.maps.Data({
+    });
+    it('test methods', () => {
+        const wrapper = mount(MapAreas, {
+            ...args,
+            store,
+            propsData: {
+                bbox: [0, 10, 20, 30],
+                area: 'FR',
+            },
+        });
+        wrapper.vm.areas.CA = new google.maps.Data({
             style: {
                 strokeOpacity: 0,
                 fillOpacity: 0,
                 strokeWeight: 2,
             },
         });
-        wrapper.vm.countries.FR = new google.maps.Data({
+        wrapper.vm.areas.FR = new google.maps.Data({
             style: {
                 strokeOpacity: 0,
                 fillOpacity: 0,
@@ -54,7 +70,7 @@ describe('MapCountries.vue', () => {
         wrapper.vm.setInfoWindow('Mickey', 10, 5000, false, 'CA');
         expect(wrapper.vm.infoWindowDatas).toHaveLength(1);
         expect(wrapper.vm.infoWindowDatas[0].playerName).toEqual('Mickey');
-        expect(wrapper.vm.infoWindowDatas[0].country).toEqual('CA');
+        expect(wrapper.vm.infoWindowDatas[0].area).toEqual('CA');
 
         wrapper.vm.removeMarkers();
         expect(wrapper.vm.markers).toHaveLength(0);
