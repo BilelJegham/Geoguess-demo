@@ -23,4 +23,5 @@ jobs:
         shell: bash
         env:
           KEYS: ${{secrets.SERVICE_ACCOUNT}}
+      - run: ls
       - run: clean-rooms -f ./keys.json -c ${{secrets.DATABASE_URL }}
