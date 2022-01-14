@@ -1,4 +1,4 @@
-name: Clean room
+name: Clean rooms
 
 on:
   schedule:
@@ -18,5 +18,9 @@ jobs:
           node-version: "16"
           registry-url: https://registry.npmjs.org/
       - run: npm install -g @geoguess/geoguess-scripts
-      - run: echo ${{secrets.SERVICE_ACCOUNT }} > keys.json 
+      - run: 'echo "$KEYS" > keys.json'
+        name: Generate keys.json
+        shell: bash
+        env:
+          KEYS: ${{secrets.SERVICE_ACCOUNT}}
       - run: clean-rooms -f keys.json -c ${{secrets.DATABASE_URL }}
