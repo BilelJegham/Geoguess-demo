@@ -9,15 +9,13 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup npmrc
-        run: |
-          echo "@geoguess:registry=https://npm.pkg.github.com" >> .npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN }}" >> .npmrc
       - uses: actions/setup-node@v2
         with:
           node-version: "16"
-          registry-url: https://registry.npmjs.org/
+          registry-url: https://npm.pkg.github.com
       - run: npm install -g @geoguess/geoguess-scripts
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - run: 'echo "$KEYS" > keys.json'
         name: Generate keys.json
         shell: bash
