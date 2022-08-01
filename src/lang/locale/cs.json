@@ -2,7 +2,9 @@
     "Home": {
         "placeVisited": "0 place visited | 1 place visited | {count} places visited",
         "historyBtn": "HISTORIE",
+        "medalsBtn": "MEDALS",
         "about": "O HŘE",
+        "createMap": "Create Map",
         "searchBar": {
             "customLoaded": "Vlastní mapa byla úspěšně načtena",
             "enterCity": "Napiš název města, regionu nebo státu (anglicky)"
@@ -31,7 +33,13 @@
         },
         "HomeCard": {
             "edit": "Edit",
-            "delete": "Delete"
+            "delete": "Delete",
+            "medal": {
+                "platinum": "Platinum",
+                "gold": "Gold",
+                "silver": "Silver",
+                "bronze": "Bronze"
+            }
         },
         "HomeCardMode": {
             "map": "Map",
@@ -39,7 +47,9 @@
         },
         "Sections": {
             "areasTitle": "Areas",
-            "mapsTitle": "Maps"
+            "mapsTitle": "Maps",
+            "pleaseSelectLabel": "You seems lost, please select a type or you can ",
+            "barrelRoll": "do a barrel roll"
         }
     },
     "StreetView": {
@@ -103,6 +113,7 @@
         "title": "Historie",
         "date": "Datum",
         "mode": "Typ hry",
+        "mapName": "Map Name",
         "time": "Časový limit",
         "distance": "Vzdálenost",
         "points": "Skóre",
@@ -141,7 +152,8 @@
     "CardRoomMap": {
         "title": "Define your map",
         "loadBtn": "Load MAP",
-        "reset": "Reset"
+        "reset": "Reset",
+        "cantPlayGeoJson": "Invalid GeoJSON, you need to have more than 5 positions."
     },
     "CardRoomSettings": {
         "title": "Nastavení hry",
@@ -159,7 +171,8 @@
             "time": "time"
         },
         "selectAreas": "Select Areas",
-        "moreSettings": "More settings"
+        "moreSettings": "More settings",
+        "optimiseStreetView": "StreetView Optimize (only official)"
     },
     "CardRoomDifficulty": {
         "title": "Zvol obtížnost hry (ovlivňuje bodování).",

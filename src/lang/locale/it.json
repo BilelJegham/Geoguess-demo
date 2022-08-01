@@ -2,7 +2,9 @@
     "Home": {
         "placeVisited": "0 luoghi visitati | 1 luogo visitato | {count} luoghi visitati",
         "historyBtn": "CRONOLOGIA",
+        "medalsBtn": "MEDAGLIE",
         "about": "INFO",
+        "createMap": "Crea mappa",
         "searchBar": {
             "customLoaded": "Mappa personalizzata caricata",
             "enterCity": "Inserisci città, stato o paese"
@@ -31,7 +33,13 @@
         },
         "HomeCard": {
             "edit": "Modifica",
-            "delete": "Elimina"
+            "delete": "Elimina",
+            "medal": {
+                "platinum": "Platino",
+                "gold": "Oro",
+                "silver": "Argento",
+                "bronze": "Bronzo"
+            }
         },
         "HomeCardMode": {
             "map": "Mappa",
@@ -39,7 +47,9 @@
         },
         "Sections": {
             "areasTitle": "Aree",
-            "mapsTitle": "Mappe"
+            "mapsTitle": "Mappe",
+            "pleaseSelectLabel": "You seems lost, please select a type or you can ",
+            "barrelRoll": "do a barrel roll"
         }
     },
     "StreetView": {
@@ -103,6 +113,7 @@
         "title": "Storia",
         "date": "Data",
         "mode": "Modalità",
+        "mapName": "Nome mappa",
         "time": "Tempo",
         "distance": "Distanza",
         "points": "Punti",
@@ -141,7 +152,8 @@
     "CardRoomMap": {
         "title": "Definisci la tua mappa",
         "loadBtn": "Carica MAPPA",
-        "reset": "Reimposta"
+        "reset": "Reimposta",
+        "cantPlayGeoJson": "GeoJSON non valido, è necessario avere più di 5 posizioni."
     },
     "CardRoomSettings": {
         "title": "Impostazioni di gioco",
@@ -159,7 +171,8 @@
             "time": "tempo"
         },
         "selectAreas": "Seleziona Aree",
-        "moreSettings": "Altre impostazioni"
+        "moreSettings": "Altre impostazioni",
+        "optimiseStreetView": "StreetView Optimize (only official)"
     },
     "CardRoomDifficulty": {
         "title": "Imposta un livello di difficoltà.",

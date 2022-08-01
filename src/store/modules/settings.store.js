@@ -1,11 +1,11 @@
 import bbox from '@turf/bbox';
 import firebase from 'firebase/app';
 import 'firebase/database';
-import { GAME_MODE, SCORE_MODE } from '../constants';
-import i18n from '../lang';
-import router from '../router';
-import { getMaxDistanceBbox } from '../utils';
-import * as MutationTypes from './mutation-types';
+import { GAME_MODE, SCORE_MODE } from '../../constants';
+import i18n from '../../lang';
+import router from '../../router';
+import { getMaxDistanceBbox } from '../../utils';
+import * as MutationTypes from '../mutation-types';
 
 export class GameSettings {
     constructor(
@@ -18,7 +18,9 @@ export class GameSettings {
         _panControl = true,
         _countdown = 0,
         _scoreMode = SCORE_MODE.NORMAL,
-        _areaParams = null
+        _areaParams = null,
+        _optimiseStreetView = true,
+        _nbRound = 5,
     ) {
         this.allPanorama = _allPanorama;
         this.time = _timeLimitation;
@@ -30,6 +32,8 @@ export class GameSettings {
         this.countdown = _countdown;
         this.scoreMode = _scoreMode;
         this.areaParams = _areaParams;
+        this.optimiseStreetView = _optimiseStreetView;
+        this.nbRoundSelected = _nbRound;
     }
 }
 
@@ -253,7 +257,8 @@ export default {
                         ...state.gameSettings,
                         difficulty,
                         placeGeoJson: rootState.homeStore.map.geojson,
-                        bboxObj: bboxObj,
+                        bboxObj: bboxObj,                        
+                        ...(rootState.homeStore.map ? {mapDetails: rootState.homeStore.map.details} : undefined)
                     },
                 });
                 dispatch('closeDialogRoom');
@@ -320,6 +325,8 @@ export default {
                         allPanorama: snapshot.child('allPanorama').val(),
                         scoreMode: snapshot.child('scoreMode').val(),
                         areaParams: snapshot.child('areaParams').val(),
+                        optimiseStreetView: snapshot.child('optimiseStreetView').val(),
+                        nbRoundSelected: snapshot.child('nbRoundSelected').val(),
                     };
 
                     dispatch('startGameMultiplayer', gameParams);

@@ -2,7 +2,9 @@
     "Home": {
         "placeVisited": "0 yer gezildi | 1 yer gezildi | {count} yer gezildi",
         "historyBtn": "GEÇMİŞ",
+        "medalsBtn": "MADALYALAR",
         "about": "HAKKINDA",
+        "createMap": "Harita Oluştur",
         "searchBar": {
             "customLoaded": "Özel harita yüklendi",
             "enterCity": "Bir şehir, bölge veya ülke girin"
@@ -31,7 +33,13 @@
         },
         "HomeCard": {
             "edit": "Düzenle",
-            "delete": "Sil"
+            "delete": "Sil",
+            "medal": {
+                "platinum": "Platin",
+                "gold": "Altın",
+                "silver": "Gümüş",
+                "bronze": "Bronz"
+            }
         },
         "HomeCardMode": {
             "map": "Map",
@@ -39,7 +47,9 @@
         },
         "Sections": {
             "areasTitle": "Areas",
-            "mapsTitle": "Maps"
+            "mapsTitle": "Maps",
+            "pleaseSelectLabel": "You seems lost, please select a type or you can ",
+            "barrelRoll": "do a barrel roll"
         }
     },
     "StreetView": {
@@ -103,6 +113,7 @@
         "title": "Geçmiş",
         "date": "Tarih",
         "mode": "Mod",
+        "mapName": "Harita İsmi",
         "time": "Zaman",
         "distance": "Mesafe",
         "points": "Puanlar",
@@ -141,7 +152,8 @@
     "CardRoomMap": {
         "title": "Haritanızı Tanımlayın",
         "loadBtn": "Harita Yükle",
-        "reset": "Sıfırla"
+        "reset": "Sıfırla",
+        "cantPlayGeoJson": "Invalid GeoJSON, you need to have more than 5 positions."
     },
     "CardRoomSettings": {
         "title": "Oyun Ayarları",
@@ -159,7 +171,8 @@
             "time": "zaman"
         },
         "selectAreas": "Select Areas",
-        "moreSettings": "More settings"
+        "moreSettings": "More settings",
+        "optimiseStreetView": "StreetView Optimize (only official)"
     },
     "CardRoomDifficulty": {
         "title": "Zorluk seviyesi seç.",

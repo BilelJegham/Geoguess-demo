@@ -60,14 +60,14 @@
         <v-data-table
             id="history-table"
             calculate-widths
+            item-key="id"
+            show-expand
+            single-expand
             :search="search"
             :headers="headers.filter((h) => !h.hide)"
             :items="items"
-            show-expand
-            single-expand
             :sort-by="['dateString']"
             :sort-desc="[true]"
-            item-key="id"
             :custom-sort="customSort"
             :expanded="items.length > 0 ? [items[items.length - 1]] : []"
         >
@@ -132,19 +132,26 @@ export default {
             dialog: false,
             url: '',
             search: '',
-            headers: [
+        };
+    },
+    computed: {
+        ...mapState({
+            history: (state) => state.homeStore.history,
+        }),
+        headers() {
+            return[
                 {
                     text: this.$t('History.date'),
                     value: 'dateString',
                 },
                 {
-                    text: this.$t('History.mode'),
-                    value: 'gameMode',
+                    text: this.$t('History.mapName'),
+                    value: 'mapName',
                     export: true,
                 },
                 {
                     text: this.$t('History.mode'),
-                    value: 'mode',
+                    value: 'gameMode',
                     export: true,
                 },
                 {
@@ -155,6 +162,11 @@ export default {
                 {
                     text: this.$t('History.time'),
                     value: 'timeString',
+                    export: true,
+                },
+                {
+                    text: this.$t('History.nbRound'),
+                    value: 'nbRound',
                     export: true,
                 },
                 {
@@ -193,13 +205,8 @@ export default {
                     text: '',
                     value: 'data-table-expand',
                 },
-            ],
-        };
-    },
-    computed: {
-        ...mapState({
-            history: (state) => state.homeStore.history,
-        }),
+            ];
+        },
         items() {
             return this.history.map((g, index) => ({
                 ...g,
@@ -215,6 +222,7 @@ export default {
                     g.timeLimitation === 0
                         ? this.$t('CardRoomTime.infinite')
                         : g.timeLimitation / 60,
+                mapName: g.mapDetails ? g.mapDetails.name : '',
             }));
         },
     },
@@ -339,10 +347,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.v-card,
-.v-data-table {
-    background-color: #f1e9d6 !important;
-}
 #historyTable {
     h2 {
         font-weight: 500;

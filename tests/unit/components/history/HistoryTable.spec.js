@@ -1,5 +1,5 @@
 import HistoryTable from '@/components/history/HistoryTable.vue';
-import homeStore from '@/store/homeStore';
+import homeStore from '@/store/modules/home.store';
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import * as dependencyUtils from '../../../../src/utils';
@@ -101,7 +101,7 @@ describe('HistoryTable.vue', () => {
         wrapper.vm.share(item);
 
         expect(wrapper.vm.url).toEqual(
-            'undefined/game/LDAsNDYuMzI0OTI0MDQ3OTI1NDEsLTc0LjIxMjgxMjE2NjYyMDQsMTYuNDU2MTA0MjMzODIwNjMsMTA3LjU5Nzg1NDgyMDAwNTgsLTguNDc3NDc0NjU2ODMwNDksLTcwLjE0OTM0NjM4ODM0NzY1LDU4LjUxNTE4NDg1NTE2NDY3LC02LjI2MDQ3NTQyMDgxNDYxMyw0Mi4wNDU4MjMwODA0MTE4NiwtMTAxLjA0OTYxNTMwMjUwODQ='
+            'http://localhost/game/LDAsNDYuMzI0OTI0MDQ3OTI1NDEsLTc0LjIxMjgxMjE2NjYyMDQsMTYuNDU2MTA0MjMzODIwNjMsMTA3LjU5Nzg1NDgyMDAwNTgsLTguNDc3NDc0NjU2ODMwNDksLTcwLjE0OTM0NjM4ODM0NzY1LDU4LjUxNTE4NDg1NTE2NDY3LC02LjI2MDQ3NTQyMDgxNDYxMyw0Mi4wNDU4MjMwODA0MTE4NiwtMTAxLjA0OTYxNTMwMjUwODQ='
         );
 
         expect(wrapper.vm.dialog).toEqual(true);
@@ -109,6 +109,7 @@ describe('HistoryTable.vue', () => {
 
     it('test exportCsv method', () => {
         const wrapper = shallowMount(HistoryTable, { ...args, store });
+        // eslint-disable-next-line no-import-assign
         dependencyUtils.download = jest.fn();
         wrapper.setData({ history: [item] });
 

@@ -1,6 +1,6 @@
 import Header from '@/components/page/Header.vue';
 import { createLocalVue, mount, shallowMount } from '@vue/test-utils';
-import homeStore from '@/store/homeStore';
+import homeStore from '@/store/modules/home.store';
 import * as MutationTypes from '@/store/mutation-types';
 import appInit from '../../testutils/appInit';
 import Vuex from 'vuex';
@@ -34,7 +34,6 @@ describe('Header.vue', () => {
         expect(wrapper.vm.aboutDialog).toEqual(false);
         aboutBtn.trigger('click');
         expect(wrapper.vm.aboutDialog).toEqual(true);
-        expect(wrapper).toMatchSnapshot();
     });
 
     it('switchLanguage method', () => {

@@ -2,7 +2,9 @@
     "Home": {
         "placeVisited": "0 platser besökta | 1 plats besökt | {count} platser besökta",
         "historyBtn": "HISTORIK",
+        "medalsBtn": "MEDALJER",
         "about": "OM",
+        "createMap": "Skapa karta",
         "searchBar": {
             "customLoaded": "Egen karta har laddats",
             "enterCity": "Ange stad, region eller land"
@@ -31,7 +33,13 @@
         },
         "HomeCard": {
             "edit": "Redigera",
-            "delete": "Radera"
+            "delete": "Radera",
+            "medal": {
+                "platinum": "Platina",
+                "gold": "Guld",
+                "silver": "Silver",
+                "bronze": "Brons"
+            }
         },
         "HomeCardMode": {
             "map": "Karta",
@@ -39,7 +47,9 @@
         },
         "Sections": {
             "areasTitle": "Areas",
-            "mapsTitle": "Maps"
+            "mapsTitle": "Maps",
+            "pleaseSelectLabel": "Du verkar vilse, vänligen välj en typ eller så kan du",
+            "barrelRoll": "göra en slumpväljning"
         }
     },
     "StreetView": {
@@ -103,6 +113,7 @@
         "title": "Historik",
         "date": "Datum",
         "mode": "Läge",
+        "mapName": "Kartnamn",
         "time": "Tid",
         "distance": "Distans",
         "points": "Poäng",
@@ -141,7 +152,8 @@
     "CardRoomMap": {
         "title": "Definiera din karta",
         "loadBtn": "Ladda KARTA",
-        "reset": "Återställ"
+        "reset": "Återställ",
+        "cantPlayGeoJson": "Ogiltig GeoJSON, du måste ha fler än 5 positioner."
     },
     "CardRoomSettings": {
         "title": "Spelinställningar",
@@ -159,7 +171,8 @@
             "time": "tid"
         },
         "selectAreas": "Välj ytor",
-        "moreSettings": "More settings"
+        "moreSettings": "More settings",
+        "optimiseStreetView": "StreetView Optimize (only official)"
     },
     "CardRoomDifficulty": {
         "title": "Sätt en svårighetsgrad.",
@@ -195,7 +208,7 @@
     "yes": "ja",
     "no": "nej",
     "AlertUpdate": {
-        "label": "A new version is available. Click on the button to obtain it.",
-        "btn": "Update"
+        "label": "En ny version finns tillgänglig. Klicka på knappen för att komma åt den.",
+        "btn": "Uppdatera"
     }
 }

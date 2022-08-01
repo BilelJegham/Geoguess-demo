@@ -2,7 +2,9 @@
     "Home": {
         "placeVisited": "0 lieu visité | 1 lieu visité | {count} lieux visités",
         "historyBtn": "Historique",
+        "medalsBtn": "MEDAILLES",
         "about": "A PROPOS",
+        "createMap": "Créer une carte",
         "searchBar": {
             "customLoaded": "Une carte personnalisée a été chargée",
             "enterCity": "Saisissez une ville, une région ou un pays"
@@ -31,7 +33,13 @@
         },
         "HomeCard": {
             "edit": "Éditer",
-            "delete": "Supprimer"
+            "delete": "Supprimer",
+            "medal": {
+                "platinum": "Platine",
+                "gold": "Or",
+                "silver": "Argent",
+                "bronze": "Bronze"
+            }
         },
         "HomeCardMode": {
             "map": "Carte",
@@ -39,7 +47,9 @@
         },
         "Sections": {
             "areasTitle": "Zones",
-            "mapsTitle": "Cartes"
+            "mapsTitle": "Cartes",
+            "pleaseSelectLabel": "Vous semblez perdu, veuillez sélectionner un critère ou vous pouvez ",
+            "barrelRoll": "faîtes un tonneau"
         }
     },
     "StreetView": {
@@ -103,6 +113,7 @@
         "title": "Historique",
         "date": "Date",
         "mode": "Mode",
+        "mapName": "Nom de la carte",
         "time": "Temps",
         "distance": "Distance",
         "points": "Points",
@@ -141,7 +152,8 @@
     "CardRoomMap": {
         "title": "Définissez votre carte",
         "loadBtn": "Charger la carte",
-        "reset": "Réinitialiser"
+        "reset": "Réinitialiser",
+        "cantPlayGeoJson": "GeoJSON invalide, vous devez avoir plus de 5 positions."
     },
     "CardRoomSettings": {
         "title": "Paramètre de la partie",
@@ -159,7 +171,8 @@
             "time": "temps"
         },
         "selectAreas": "Sélectionner les zones",
-        "moreSettings": "Paramètres avancés"
+        "moreSettings": "Paramètres avancés",
+        "optimiseStreetView": "StreetView Optimiser (uniquement officiel)"
     },
     "CardRoomDifficulty": {
         "title": "Saisir la difficulté.",

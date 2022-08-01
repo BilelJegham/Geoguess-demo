@@ -2,7 +2,9 @@
     "Home": {
         "placeVisited": "0 посещенных мест | 1 посещено | {count} посещенных",
         "historyBtn": "ИСТОРИЯ",
+        "medalsBtn": "МЕДАЛИ",
         "about": "ПРО ПРОЕКТ",
+        "createMap": "Создать карту",
         "searchBar": {
             "customLoaded": "Пользовательская карта загружена",
             "enterCity": "Введите страну, штат, город"
@@ -31,7 +33,13 @@
         },
         "HomeCard": {
             "edit": "Редактировать",
-            "delete": "Удалить"
+            "delete": "Удалить",
+            "medal": {
+                "platinum": "Платина",
+                "gold": "Золото",
+                "silver": "Серебро",
+                "bronze": "Бронза"
+            }
         },
         "HomeCardMode": {
             "map": "Карта",
@@ -39,7 +47,9 @@
         },
         "Sections": {
             "areasTitle": "Areas",
-            "mapsTitle": "Maps"
+            "mapsTitle": "Maps",
+            "pleaseSelectLabel": "Похоже, вы потерялись, выберите тип или вы можете ",
+            "barrelRoll": "do a barrel roll"
         }
     },
     "StreetView": {
@@ -103,6 +113,7 @@
         "title": "История",
         "date": "Дата",
         "mode": "Режим",
+        "mapName": "Название карты",
         "time": "Время",
         "distance": "Дистанция",
         "points": "Очки",
@@ -141,7 +152,8 @@
     "CardRoomMap": {
         "title": "Определите вашу карту",
         "loadBtn": "Загрузить Карту",
-        "reset": "Сбросить"
+        "reset": "Сбросить",
+        "cantPlayGeoJson": "Invalid GeoJSON, you need to have more than 5 positions."
     },
     "CardRoomSettings": {
         "title": "Настройки комнаты",
@@ -159,7 +171,8 @@
             "time": "время"
         },
         "selectAreas": "Выбрать область",
-        "moreSettings": "More settings"
+        "moreSettings": "More settings",
+        "optimiseStreetView": "StreetView Optimize (only official)"
     },
     "CardRoomDifficulty": {
         "title": "Установите уровень сложности.",

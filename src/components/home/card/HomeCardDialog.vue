@@ -14,12 +14,7 @@
                 class="white--text align-end"
                 height="230px"
                 gradient="rgba(0,0,0,0), rgba(0,0,0,0.8)"
-                :src="
-                    data.imageUrl ||
-                        `https://source.unsplash.com/500x230/weekly?${encodeURI(
-                            data.nameLocate
-                        )}`
-                "
+                :src="data.imageSrc"
             >
                 <v-card-title>{{ data.nameLocate }}</v-card-title>
             </v-img>
@@ -68,16 +63,16 @@ export default {
             setGameSettings: SETTINGS_SET_GAME_SETTINGS,
         }),
         ...mapActions('settingsStore', ['openDialogRoom']),
-        ...mapActions(['loadGeoJsonFromUrl', 'setGeoJson', 'setMapLoaded']),
+        ...mapActions(['loadGeoJsonFromUrl', 'setGeoJson', 'setMapLoaded', 'loadMap']),
         setMap() {
             if (this.type === 'area') {
                 this.loadGeoJsonFromUrl(this.data.data.urlArea);
                 this.setGameSettings({ areaParams: this.data });
             } else {
-                if (this.data.custom) {
+                if (this.data.type === 'custom') {
                     this.setMapLoaded(this.data);
                 } else {
-                    this.loadGeoJsonFromUrl(this.data.url);
+                    this.loadMap(this.data);
                 }
             }
             this.visible = false;

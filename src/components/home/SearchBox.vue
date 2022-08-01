@@ -32,7 +32,7 @@
                 height="50"
                 @click="dialogCustom = !dialogCustom"
             >
-                <v-icon>mdi-map-plus</v-icon> Create Map
+                <v-icon>mdi-map-plus</v-icon> {{ $t('Home.createMap') }}
             </v-btn>
             <DialogCustomMap
                 :visibility="dialogCustom"
@@ -62,17 +62,18 @@ export default {
     },
     data() {
         return {
-            dialog: false,
             dialogCustom: this.dialogCustomOpen,
         };
     },
+
+    computed: {
+        ...mapGetters(['nbPlaceVisits']),
+    },
+
     watch: {
         dialogCustomOpen(v) {
             this.dialogCustom = v;
         },
-    },
-    computed: {
-        ...mapGetters(['nbPlaceVisits']),
     },
 
     mounted() {

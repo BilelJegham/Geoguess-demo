@@ -2,7 +2,9 @@
     "Home": {
         "placeVisited": "0 מקומות שביקרתם בהם | מקום אחד שביקרתם בו | {count} מקומות שביקרתם בהם",
         "historyBtn": "היסטוריה",
+        "medalsBtn": "MEDALS",
         "about": "אודות",
+        "createMap": "Create Map",
         "searchBar": {
             "customLoaded": "המפה בהתאמה האישית מוכנה",
             "enterCity": "הזנו שם של עיר, מחוז או מדינה"
@@ -31,7 +33,13 @@
         },
         "HomeCard": {
             "edit": "ערוך",
-            "delete": "מחק"
+            "delete": "מחק",
+            "medal": {
+                "platinum": "Platinum",
+                "gold": "Gold",
+                "silver": "Silver",
+                "bronze": "Bronze"
+            }
         },
         "HomeCardMode": {
             "map": "מפה",
@@ -39,7 +47,9 @@
         },
         "Sections": {
             "areasTitle": "אזורים",
-            "mapsTitle": "מפות"
+            "mapsTitle": "מפות",
+            "pleaseSelectLabel": "נדמה שאיבדת את הדרך, אנא בחר סוג או שתוכל ",
+            "barrelRoll": "do a barrel roll"
         }
     },
     "StreetView": {
@@ -103,6 +113,7 @@
         "title": "היסטוריה",
         "date": "תאריך",
         "mode": "מצב משחק",
+        "mapName": "Map Name",
         "time": "זמן",
         "distance": "מרחק",
         "points": "נקודות",
@@ -141,7 +152,8 @@
     "CardRoomMap": {
         "title": "הגדר את המפה שלך",
         "loadBtn": "טען מפה",
-        "reset": "אתחל"
+        "reset": "אתחל",
+        "cantPlayGeoJson": "Invalid GeoJSON, you need to have more than 5 positions."
     },
     "CardRoomSettings": {
         "title": "הגדרות משחק",
@@ -159,7 +171,8 @@
             "time": "זמן"
         },
         "selectAreas": "בחר אזורים",
-        "moreSettings": "הגדרות נוספות"
+        "moreSettings": "הגדרות נוספות",
+        "optimiseStreetView": "StreetView Optimize (only official)"
     },
     "CardRoomDifficulty": {
         "title": "בחר רמת קושי.",

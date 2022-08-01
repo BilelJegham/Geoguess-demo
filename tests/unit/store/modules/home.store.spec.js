@@ -17,6 +17,12 @@ jest.mock('@/plugins/axios', () => {
             state: 'Occitania',
         },
     };
+    const reponseNte = {
+        "type":"FeatureCollection","licence":"Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
+        "features":[
+            {"type":"Feature","properties":{"place_id":281995451,"osm_type":"relation","osm_id":59874,"display_name":"Nantes, Loire-Atlantique, Pays de la Loire, France métropolitaine, France","place_rank":16,"category":"boundary","type":"administrative","importance":0.7430886552278881,"icon":"https://nominatim.openstreetmap.org/ui/mapicons//poi_boundary_administrative.p.20.png"},
+            "bbox":[-1.6418115,47.1805856,-1.4788443,47.2958583],"geometry":{"type":"Polygon","coordinates":[]}}
+        ]};
     return {
         get: jest.fn((url) => {
             let data;
@@ -27,6 +33,9 @@ jest.mock('@/plugins/axios', () => {
                     break;
                 case 'https://listmaps.gejson':
                     data = { maps: [], areas: [] };
+                    break;
+                case 'https://nominatim.openstreetmap.org/search/nantes?format=geojson&limit=1&polygon_geojson=1':
+                    data = reponseNte;
                     break;
             }
 
@@ -39,9 +48,9 @@ jest.mock('@/plugins/axios', () => {
 });
 
 import axios from '@/plugins/axios';
-import { GeoMapCustom } from '../../../src/models/GeoMap';
-import * as MutationTypes from '../../../src/store/mutation-types';
-const { default: homeStore } = require('../../../src/store/homeStore');
+import { GeoMapCustom } from '@/models/GeoMap';
+import * as MutationTypes from '@/store/mutation-types';
+import { default as homeStore } from '@/store/modules/home.store';
 
 describe('homeStore.js', () => {
     //
@@ -136,6 +145,84 @@ describe('homeStore.js', () => {
         expect(homeStore.getters.geoJsonString({})).toEqual('');
     });
 
+    it('getMaxScoreMap should return max score for map id 1', ()=>{
+        const state = {
+            history: [
+                {
+                    date: "2020-06-14T15:10:14.579Z",
+                    mapDetails:{
+                        id: 1,
+                        name: 'map1',
+                        type: 'default'
+                    },
+                    points: 12
+                },
+                {
+                    date: "2020-06-14T15:10:14.579Z",
+                    points: 122
+                },
+                {
+                    date: "2020-06-14T15:10:14.579Z",
+                    mapDetails:{
+                        id: 1,
+                        name: 'map1',
+                        type: 'default'
+                    },
+                    points: 102
+                },
+            ]
+        };
+
+        expect(homeStore.getters.getMaxScoreMap(state)({id:1, type: 'default'})).toEqual(102);
+
+    });
+
+    it('getMaxScoreOsm should return max score for osm 123', ()=>{
+        const state = {
+            history: [
+                {
+                    date: "2020-06-14T15:10:14.579Z",
+                    mapDetails:{
+                        osmId: 123,
+                        osmType: 'relation',
+                        name: 'map1',
+                        type: 'osm'
+                    },
+                    points: 12
+                },
+                {
+                    date: "2020-06-14T15:10:14.579Z",
+                    points: 122
+                },
+                {
+                    date: "2020-06-14T15:10:14.579Z",
+                    mapDetails:{
+                        osmId: 123,
+                        osmType: 'relation',
+                        name: 'map1',
+                        type: 'osm'
+                    },
+                    points: 102
+                },
+                {
+                    date: "2020-06-14T15:10:14.579Z",
+                    mapDetails:{
+                        osmId: 123,
+                        osmType: 'relation',
+                        name: 'map1',
+                        type: 'osm'
+                    },
+                    points: 999,
+                    nbRound: 1
+                },
+            ]
+        };
+
+        expect(homeStore.getters.getMaxScoreOsm(state)({osmId:123, osmType: 'relation', type: 'osm'})).toEqual(102);
+
+    });
+
+
     //
     // ACTIONS
     //
@@ -149,7 +236,7 @@ describe('homeStore.js', () => {
         );
     });
 
-    it('loadPlaceGeoJSON', async () => {
+    it('loadPlaceGeoJSON: should commit GeoJSON', async () => {
         const commit = jest.fn();
         await homeStore.actions.loadPlaceGeoJSON(
             { commit, state: { loadingGeoJson: false } },
