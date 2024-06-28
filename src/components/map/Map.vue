@@ -11,7 +11,8 @@
                 mapTypeControl: false,
                 streetViewControl: false,
                 draggableCursor: 'crosshair',
-                clickableIcons: false
+                clickableIcons: false,
+                styles: $vuetify.theme.dark ? $vuetify.theme.themes.dark.gmap : $vuetify.theme.themes.light.gmap
             }"
         />
     </div>
@@ -19,6 +20,7 @@
 <script>
 import { STROKE_COLORS } from '../../constants';
 import MapMixin from './mixins/MapMixin';
+
 export default {
     name: 'Map',
     mixins: [MapMixin],
@@ -63,38 +65,38 @@ export default {
             this.markers.push(marker);
         },
         removeMarkers() {
-            for (var i = 0; i < this.markers.length; i++) {
-                this.markers[i].setMap(null);
+            for (const element of this.markers) {
+                element.setMap(null);
             }
             this.markers = [];
         },
         setInfoWindow(playerName, distance, points, endGame = false) {
             let dataToDisplay = '';
-            if (playerName !== null)
-                dataToDisplay += '<b>' + playerName + '</b>' + ' : <br/>';
 
             if (distance < 1000) {
                 dataToDisplay +=
                     '<b>' +
                     this.$t('Maps.infoWindow.Distance') +
-                    ' : </b>' +
-                    new Intl.NumberFormat(this.$i18n.locale, { style: "unit", unit:"meter" }).format(distance); 
+                    ': </b>' +
+                    new Intl.NumberFormat(this.$i18n.locale, { style: "unit", unit:"meter" }).format(distance);
             } else {
                 dataToDisplay +=
                     '<b>' +
                     this.$t('Maps.infoWindow.Distance') +
-                    ' : </b>' +
-                    new Intl.NumberFormat(this.$i18n.locale, { style: "unit", unit:"kilometer" }).format(distance / 1000); 
+                    ': </b>' +
+                    new Intl.NumberFormat(this.$i18n.locale, { style: "unit", unit:"kilometer" }).format(distance / 1000);
             }
 
             dataToDisplay +=
                 '<br/><b>' +
                 this.$t('Maps.infoWindow.Points') +
-                ' : </b>' +
+                ': </b>' +
                 points;
 
             const infoWindow = new google.maps.InfoWindow({
-                content: dataToDisplay,
+                headerContent: playerName,
+                headerDisabled: !playerName,
+                content: `<div>${dataToDisplay}</div>`,
             });
             infoWindow.open(
                 this.map,
@@ -125,8 +127,8 @@ export default {
             this.polylines.push(polyline);
         },
         removePolylines() {
-            for (let i = 0; i < this.polylines.length; i++) {
-                this.polylines[i].setMap(null);
+            for (const element of this.polylines) {
+                element.setMap(null);
             }
         },
         startNextRound() {
@@ -150,9 +152,9 @@ export default {
         fitBounds() {
             const bounds = new google.maps.LatLngBounds();
 
-            for (let i = 0; i < this.markers.length; i++) {
-                if (this.markers[i].getVisible()) {
-                    bounds.extend(this.markers[i].getPosition());
+            for (const element of this.markers) {
+                if (element.getVisible()) {
+                    bounds.extend(element.getPosition());
                 }
             }
 
@@ -161,9 +163,15 @@ export default {
     },
 };
 </script>
+
 <style lang="scss" scoped>
 #mapClassic {
     width: 100%;
     height: 100%;
+    background-color: var(--v-gmapBg-base);
+}
+
+.gm-style-iw {
+  color: black;
 }
 </style>

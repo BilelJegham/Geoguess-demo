@@ -24,6 +24,12 @@
         "
     >
         <div class="container-map_details">
+            <div class="alert-container">
+                <Leaderboard
+                    v-if="guessString && !$vuetify.breakpoint.mobile && leaderboardShown"
+                    :leaderboard-shown="leaderboardShown"
+                ></Leaderboard>
+            </div>
             <DetailsMap
                 v-if="printMapFull"
                 :properties="randomFeatureProperties"
@@ -176,9 +182,11 @@ import MapAreas from '@/components/map/MapAreas';
 import { GAME_MODE } from '../constants';
 import { getSelectedPos } from '../utils';
 import { getScore } from '../utils/game/score';
+import Leaderboard from "@/components/game/Leaderboard.vue";
 
 export default {
     components: {
+        Leaderboard,
         DialogSummary,
         DetailsMap,
         Map,
@@ -206,6 +214,8 @@ export default {
         'areasGeoJsonUrl',
         'pathKey',
         'mapDetails',
+        'leaderboardShown',
+        'guessString'
     ],
     data() {
         return {
@@ -224,7 +234,7 @@ export default {
             activeMap: false,
             size: 2,
             isNotepadVisible: false,
-            pinActive: false,
+            pinActive: localStorage.getItem('pinActive') === 'true',
             printMapFull: false,
             countdownStarted: false,
             game: {
@@ -240,13 +250,17 @@ export default {
             if (this.playerNumber == 1 || !this.room) {
                 return true;
             } else {
-                if (this.isNextStreetViewReady) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return this.isNextStreetViewReady;            
             }
         },
+    },
+    watch: {
+      pinActive() {
+        localStorage.setItem('pinActive', this.pinActive);
+      },
+      printMapFull(value) {
+        this.$emit('printMapFull', value);
+      }
     },
     async mounted() {
         await this.$gmapApiPromiseLazy();
@@ -261,7 +275,6 @@ export default {
             this.room = firebase.database().ref(this.roomName);
 
             this.room.on('value', (snapshot) => {
-                // Check if the room is already removed
                 if (snapshot.hasChild('active')) {
                     size = snapshot.child('size').val();
                     if (size === 1) {
@@ -572,11 +585,19 @@ export default {
                     .set(true);
             this.$emit('finishGame');
         },
-    },
+    }
 };
 </script>
 
 <style scoped lang="scss">
+.alert-container {
+    position: absolute;
+    right: 0;
+    .v-alert {
+        z-index: 2;
+    }
+}
+
 #container-map {
     display: flex;
     flex-direction: column;
@@ -587,7 +608,6 @@ export default {
     opacity: 0.7;
     width: var(--width);
     height: var(--height);
-    z-index: 3;
     --aspect-ratio: 1.25;
     --inactive-width: 16vw;
     --active-width: 30vw;
@@ -632,6 +652,7 @@ export default {
         }
         .container-map_details {
             display: block;
+            position: relative;
         }
     }
 
@@ -656,7 +677,7 @@ export default {
 
     .container-map_notepad {
         position: absolute;
-        background-color: #fafafa;
+        background-color: var(--v-notepad-base);
         resize: none;
         left: var(--width);
         margin-left: 10px;
@@ -668,6 +689,13 @@ export default {
         outline: none;
         padding: 5px;
         box-shadow: 0px 2px 8px 0px rgba(99, 99, 99, 0.2);
+    }
+
+    .theme--dark & .container-map_notepad {
+        color: #fff;
+    }
+    .theme--light & .container-map_notepad {
+        color: #000;
     }
 }
 

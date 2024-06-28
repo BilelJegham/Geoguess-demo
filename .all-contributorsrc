@@ -193,6 +193,78 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "itstechsupport",
+      "name": "itstechsupport",
+      "avatar_url": "https://avatars.githubusercontent.com/u/62838020?v=4",
+      "profile": "https://github.com/itstechsupport",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "tigattack",
+      "name": "tigattack",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10629864?v=4",
+      "profile": "http://blog.tiga.tech",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Troplo",
+      "name": "Troplo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/45160807?v=4",
+      "profile": "https://troplo.com",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "66Leo66",
+      "name": "Leo Li",
+      "avatar_url": "https://avatars.githubusercontent.com/u/33322229?v=4",
+      "profile": "https://github.com/66Leo66",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "ElectricS01",
+      "name": "ElectricS01",
+      "avatar_url": "https://avatars.githubusercontent.com/u/103579308?v=4",
+      "profile": "http://electrics01.com",
+      "contributions": [
+        "review"
+      ]
+    },
+    {
+      "login": "NitinRamnani",
+      "name": "Nitin Ramnani",
+      "avatar_url": "https://avatars.githubusercontent.com/u/16476523?v=4",
+      "profile": "https://github.com/NitinRamnani",
+      "contributions": [
+        "test"
+      ]
+    },
+    {
+      "login": "zhudotexe",
+      "name": "Andrew Zhu",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8866981?v=4",
+      "profile": "https://zhu.codes",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "HelloJowet",
+      "name": "Jonas Frei",
+      "avatar_url": "https://avatars.githubusercontent.com/u/53214867?v=4",
+      "profile": "https://github.com/HelloJowet",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -201,5 +273,6 @@
   "repoType": "github",
   "repoHost": "https://github.com",
   "skipCi": true,
-  "commitConvention": "none"
+  "commitConvention": "none",
+  "commitType": "docs"
 }

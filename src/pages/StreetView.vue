@@ -10,17 +10,24 @@
                 :nb-round="nbRound"
                 :remaining-time="remainingTime"
                 :mode="mode"
+                :leaderboardEnabled="guessedLeaderboard || scoreLeaderboard"
+                @toggleLeaderboard="leaderboardShown = !leaderboardShown"
             />
 
             <div id="game-interface">
-                <v-overlay :value="!isReady && multiplayer" opacity="1" />
+                <v-overlay :value="!isReady && !multiplayer" opacity="0.5" >
+                    <v-progress-circular
+                        indeterminate
+                        size="64"
+                    ></v-progress-circular>
+                </v-overlay>
                 <div id="street-view" ref="streetView" />
 
 
                 <div id="game-interface__overlay">
                     <v-tooltip top>
                         <template v-slot:activator="{ on, attrs }">
-                            <v-btn class="resetBtn" rounded dark fab 
+                            <v-btn class="resetBtn" rounded dark fab
                                    v-bind="attrs"
                                    v-on="on"
                                    @click="resetLocation" >
@@ -36,7 +43,7 @@
                         :room-name="roomName"
                         :player-number="playerNumber"
                         :player-name="playerName"
-                        :is-ready="isReady"
+                        :is-ready="!!randomLatLng"
                         :round="round"
                         :score="score"
                         :points="points"
@@ -59,6 +66,7 @@
                         @showResult="showResult"
                         @goToNextRound="goToNextRound"
                         @finishGame="finishGame"
+                        @printMapFull="printMapFull = $event"
                     />
                 </div>
             </div>
@@ -70,6 +78,21 @@
             :dialog-text="dialogText"
         />
         <div class="alert-container">
+            <Leaderboard
+                v-if="!$vuetify.breakpoint.mobile && roomName && !printMapFull"
+                v-model="leaderboardShown"
+                :leaderboard="leaderboard"
+            ></Leaderboard>
+
+            <DialogMessage
+                v-if="$vuetify.breakpoint.mobile && roomName && !printMapFull"
+                dialog-title="Leaderboard"
+                :dismissible="true"
+                :dialogMessage="leaderboardShown"
+                @close="leaderboardShown = false"
+            >
+                <LeaderboardContent :leaderboard="leaderboard" />
+            </DialogMessage>
             <v-alert
                 v-if="isVisibleDialog"
                 type="warning"
@@ -88,7 +111,14 @@
                 prominent
                 icon="mdi-clock-fast"
             >
-                {{ $tc('StreetView.countdownAlert', timeCountdown) }}
+                {{ $tc('StreetView.countdownAlert', remainingTime) }}
+                <v-progress-linear
+                    :active="isVisibleCountdownAlert"
+                    color="white"
+                    v-model="countdownPercentage"
+                    absolute
+                    bottom
+                ></v-progress-linear>
             </v-alert>
         </div>
     </div>
@@ -111,15 +141,19 @@ import {
 
 import { GAME_MODE, SCORE_MODE } from '../constants';
 
-import { mapActions, mapGetters } from 'vuex';
+import {mapActions, mapGetters, mapState} from 'vuex';
 
 import ConfirmExitMixin from '@/mixins/ConfirmExitMixin';
+import Leaderboard from "@/components/game/Leaderboard.vue";
+import LeaderboardContent from '../components/game/LeaderboardContent.vue';
 
 export default {
     components: {
+        Leaderboard,
         HeaderGame,
         Maps,
         DialogMessage,
+        LeaderboardContent
     },
     mixins: [ConfirmExitMixin],
     props: {
@@ -209,6 +243,14 @@ export default {
             required: false,
             default: 5,
         },
+        guessedLeaderboard: {
+            default: true,
+            type: Boolean,
+        },
+        scoreLeaderboard: {
+            default: true,
+            type: Boolean,
+        },
     },
     data() {
         return {
@@ -243,9 +285,20 @@ export default {
             timeCountdown: 0,
 
             streetViewService: null,
+            leaderboard: [],
+            leaderboardShown: !this.$vuetify.breakpoint.mobile && this.roomName && (this.guessedLeaderboard || this.scoreLeaderboard),
+            printMapFull: false
         };
     },
-    computed: mapGetters(['areasJson']),
+    computed: {
+      ...mapGetters(['areasJson']),
+      ...mapState('settingsStore', [
+        'players',
+      ]),
+      countdownPercentage() {
+          return (this.remainingTime * 100) / this.timeCountdown;
+      }
+    },
     async mounted() {
         if (
             (this.areaParams && this.areaParams.data.urlArea) ||
@@ -259,7 +312,7 @@ export default {
         this.panorama = new google.maps.StreetViewPanorama(
             this.$refs.streetView
         );
-  
+
         if (!this.streetViewService) {
             this.streetViewService = new StreetViewService(
                 { allPanorama: this.allPanorama, optimiseStreetView: this.optimiseStreetView },
@@ -272,13 +325,14 @@ export default {
         if (!this.multiplayer) {
             await this.loadStreetView();
             this.$refs.mapContainer.startNextRound();
-
+            
             if (this.timeLimitation != 0) {
                 if (!this.hasTimerStarted) {
                     this.initTimer(this.timeLimitation);
                     this.hasTimerStarted = true;
                 }
             }
+            this.isReady = true;
         } else {
             // Set a room name if it's null to detect when the user refresh the page
             if (!this.roomName) {
@@ -295,6 +349,28 @@ export default {
             this.room.on('value', (snapshot) => {
                 // Check if the room is already removed
                 if (snapshot.hasChild('active')) {
+                    // Leaderboard
+                    if(this.scoreLeaderboard) {
+                        this.leaderboard = Object.entries(snapshot.val().playerName).map((player) => {
+                            return {
+                                scoreHeader: this.leaderboard.find((entity) => entity.id === player[0])?.scoreHeader || 0,
+                                score: snapshot.val()?.finalPoints?.[player[0]] || 0,
+                                name: player[1],
+                                id: player[0],
+                                guessed: !!snapshot.val()?.guess?.[player[0]],
+                            };
+                        });
+                    } else if(this.guessedLeaderboard) {
+                      this.leaderboard = Object.entries(snapshot.val().playerName).map((player) => {
+                        return {
+                          name: player[1],
+                          guessed: !!snapshot.val()?.guess?.[player[0]],
+                          id: player[0],
+                        };
+                      });
+                    }
+
+
                     // Put the player into the current round node if the player is not put yet
                     if (
                         !snapshot
@@ -322,7 +398,7 @@ export default {
                                         '/longitude'
                                 )
                                 .val();
-                          
+
                             this.area = snapshot
                                 .child(
                                     'streetView/round' + this.round + '/area'
@@ -348,6 +424,7 @@ export default {
                         }
                     }
 
+                    
                     // Enable guess button when every players are put into the current round's node
                     if (
                         snapshot.child('round' + this.round).numChildren() ===
@@ -434,6 +511,7 @@ export default {
                         warning,
                  });
             }
+            
         },
         resetLocation() {
             const service = new google.maps.StreetViewService();
@@ -442,7 +520,9 @@ export default {
                     location: this.randomLatLng,
                     preference: 'nearest',
                     radius: 50,
-                    source: this.allPanorama ? 'default' : 'outdoor',
+                    sources: this.allPanorama
+                        ? [google.maps.StreetViewSource.DEFAULT, google.maps.StreetViewSource.OUTDOOR, google.maps.StreetViewSource.GOOGLE]
+                        : [google.maps.StreetViewSource.GOOGLE],
                 },
                 this.setPosition
             );
@@ -502,7 +582,6 @@ export default {
                 heading: 270,
                 pitch: 0,
             });
-
             this.panorama.setZoom(0);
         },
         initTimer(time, printAlert) {
@@ -585,6 +664,11 @@ export default {
             this.isVisibleCountdownAlert = false;
             this.overlay = true;
             this.$refs.header.stopTimer();
+
+            // Leaderboard
+            for (let player of Object.entries(this.leaderboard)) {
+              player[1].scoreHeader = player[1].score;
+            }
         },
         async goToNextRound(playAgain = false) {
             if (playAgain) {
@@ -594,6 +678,7 @@ export default {
                 this.score = 0;
                 this.points = 0;
             }
+            this.isReady = false;
 
             // Reset
             this.randomLatLng = null;
@@ -617,6 +702,7 @@ export default {
                 if (!this.multiplayer && this.timeLimitation != 0) {
                     this.initTimer(this.timeLimitation);
                 }
+
             } else {
                 // Trigger listener and load the next streetview
                 this.room
@@ -624,6 +710,8 @@ export default {
                     .set(this.round);
             }
             this.$refs.mapContainer.startNextRound();
+
+            this.isReady = !this.multiplayer;
         },
         exitGame() {
             // Disable the listener and force the players to exit the game

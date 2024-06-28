@@ -24,6 +24,7 @@
                     {{ round }} / {{ nbRound }}
                 </span>
             </div>
+
             <div v-if="isDistanceVisible" class="round-score-container">
                 <span class="sub-text">{{ $t('HeaderGame.distance') }}: </span>
                 <span class="main-text">{{
@@ -36,9 +37,25 @@
             </div>
             <div class="round-points-container">
                 <span class="sub-text">{{ $t('HeaderGame.score') }}: </span>
-    
+
                 <span class="main-text">{{ points }}</span>
             </div>
+            <v-tooltip bottom v-if="roomName && leaderboardEnabled">
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn 
+                        dark elevation fab small 
+                        class="ml-3"
+                        v-bind="attrs"
+                        v-on="on"
+                        @click="toggleLeaderboard" 
+                    >
+              
+                        <v-icon>mdi-scoreboard-outline</v-icon>
+                    </v-btn>
+            
+                </template>
+                <span>{{ $t('StreetView.leaderboard') }}</span>
+            </v-tooltip>
         </v-app-bar>
     </div>
 </template>
@@ -47,6 +64,7 @@
 import { getCountdownText } from '@/utils';
 import { GAME_MODE } from '../constants';
 import { mapState } from 'vuex';
+
 export default {
     props: [
         'distance',
@@ -55,6 +73,8 @@ export default {
         'remainingTime',
         'roomName',
         'nbRound',
+        'mode',
+        'leaderboardEnabled'
     ],
     data() {
         return {
@@ -96,6 +116,9 @@ export default {
             if (this.intervalFunction) {
                 clearInterval(this.intervalFunction);
             }
+        },
+        toggleLeaderboard() {
+            this.$emit('toggleLeaderboard');
         },
     },
 };

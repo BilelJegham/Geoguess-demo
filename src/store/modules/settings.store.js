@@ -21,6 +21,8 @@ export class GameSettings {
         _areaParams = null,
         _optimiseStreetView = true,
         _nbRound = 5,
+        _scoreLeaderboard = true,
+        _guessedLeaderboard = true,
     ) {
         this.allPanorama = _allPanorama;
         this.time = _timeLimitation;
@@ -34,6 +36,8 @@ export class GameSettings {
         this.areaParams = _areaParams;
         this.optimiseStreetView = _optimiseStreetView;
         this.nbRoundSelected = _nbRound;
+        this.scoreLeaderboard = _scoreLeaderboard;
+        this.guessedLeaderboard = _guessedLeaderboard;
     }
 }
 
@@ -54,7 +58,7 @@ export default {
         // SETTINGS
         gameSettings: new GameSettings(),
         players: [],
-        name: localStorage.getItem('playerName') || '',
+        name: localStorage.getItem('playerName')?.slice(0, 20) || i18n.t("CardRoomPlayerName.anonymousPlayerName"),
         invalidName: false,
     }),
     mutations: {
@@ -88,7 +92,7 @@ export default {
 
                 state.room.child('playerName/player'+playerNumber).onDisconnect().remove();
 
-                
+
                 if (numberOfPlayers === 0) {
                     // Put the tentative player's name into the room node
                     // So that other player can't enter as the first player while the player decide the name and room size
@@ -257,7 +261,7 @@ export default {
                         ...state.gameSettings,
                         difficulty,
                         placeGeoJson: rootState.homeStore.map.geojson,
-                        bboxObj: bboxObj,                        
+                        bboxObj: bboxObj,
                         ...(rootState.homeStore.map ? {mapDetails: rootState.homeStore.map.details} : undefined)
                     },
                 });
@@ -281,18 +285,9 @@ export default {
                 );
             }
         },
-
-        setPlayerName({ commit, state }, playerName) {
-            if (playerName === '') {
-                commit(
-                    MutationTypes.SETTINGS_SET_PLAYER_NAME,
-                    i18n.t('CardRoomPlayerName.anonymousPlayerName') +' '+ state.playerNumber
-                );
-            }else{
-                localStorage.setItem('playerName', playerName);
-                commit(MutationTypes.SETTINGS_SET_PLAYER_NAME, playerName);
-            }
-
+        setPlayerName({ commit }, playerName) {
+            localStorage.setItem('playerName', playerName.slice(0, 20));
+            commit(MutationTypes.SETTINGS_SET_PLAYER_NAME, playerName.slice(0, 20));
         },
         startGame({ state, dispatch, rootState }) {
             let gameParams = {};
@@ -327,8 +322,9 @@ export default {
                         areaParams: snapshot.child('areaParams').val(),
                         optimiseStreetView: snapshot.child('optimiseStreetView').val(),
                         nbRoundSelected: snapshot.child('nbRoundSelected').val(),
+                        scoreLeaderboard: snapshot.child('scoreLeaderboard').val(),
+                        guessedLeaderboard: snapshot.child('guessedLeaderboard').val(),
                     };
-
                     dispatch('startGameMultiplayer', gameParams);
                 });
             }

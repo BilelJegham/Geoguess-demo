@@ -7,6 +7,7 @@
                         <img
                             class="home-page__traveler-img"
                             src="../assets/home/traveller.svg"
+                            alt="traveler img"
                         />
                     </div>
                     <v-layout class="home-page__main__content">
@@ -80,16 +81,20 @@ export default {
         z-index: 1;
         width: 100%;
     }
-    background-color: #ded3af;
+    background-color: var(--v-home-base);
     .home-page__main {
         position: relative;
-
+      .theme--light & .home-page__main__container {
+        background: url('../assets/home/world.svg');
+      }
+      .theme--dark & .home-page__main__container {
+        background: url('../assets/home/world-dark.svg');
+      }
         .home-page__main__container {
             font-size: 1.2rem;
             padding: 0;
             margin: 0;
             width: 100%;
-            background: url('../assets/home/world.svg');
             background-size: cover;
             background-position: top;
             .home-page__main__layout {
@@ -126,7 +131,7 @@ export default {
             right: 0;
         }
     }
-    
+
 }
 @media (max-width: 1300px) and (min-width: 600px) {
     .home-page

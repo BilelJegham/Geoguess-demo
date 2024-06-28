@@ -1,5 +1,12 @@
 <template>
     <ContentPage>
+        <Adsense
+            ins-style="display: block;height: 150px; width: 100%"
+            style="height: 150px;"
+            data-ad-client="ca-pub-3283982605864712"
+            data-ad-slot="3025449431"
+            data-ad-format="horizontal">
+        </Adsense>
         <div class="content content--no-background mt-5 mb-0 pa-0">
             <WorldCountries 
                 class="m-auto"
